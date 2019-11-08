@@ -1,2 +1,2 @@
-<input id="username"></input>
-<button>Search!</button>
+<div id="user-data" class="">
+</div>
