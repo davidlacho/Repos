@@ -39,3 +39,4 @@ Enter a GitHub username into the search bar and hit `Search`. User data will app
   * Tracy Lum's Querying GitHub's GraphQL API: https://www.tracylum.com/blog/2017-09-09-querying-githubs-graphql-api/
 
 ## Screenshot
+![Screenshot](https://github.com/fiveache/Repos/blob/master/docs/screenshot.png?raw=true)
