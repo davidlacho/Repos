@@ -1,16 +1,16 @@
 defmodule Repos.SearchChannel do
   use Repos.Web, :channel
-  def join(name, _auth_msg, socket) do
-    IO.puts("+++++++++")
-    IO.puts(name)
+  def join(_name, _auth_msg, socket) do
     {:ok, %{hey: "there"}, socket}
   end
 
-  def handle_in(name, message, socket) do
-    IO.puts("====")
-    IO.puts(name)
-    IO.inspect(message)
-    IO.puts("====")
+  def handle_in(_, %{"username" => username}, socket) do
+    %{"data" => %{"user" => %{"following" => %{"edges" => following},"issues" => %{"edges" => issues},"pinnedRepositories" => %{"edges" => pinned_repositories}, "pullRequests" => %{"edges" => pull_requests}, "watching" => %{"edges" => watching}}}} = Repos.Worker.get_user(username)
+    IO.inspect(following)
+    IO.inspect(Enum.count(issues))
+    IO.inspect(pinned_repositories)
+    IO.inspect(Enum.count(pull_requests))
+    IO.inspect(watching)
     {:reply, :ok, socket}
   end
 
