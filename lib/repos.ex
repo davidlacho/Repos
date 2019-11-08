@@ -12,6 +12,7 @@ defmodule Repos do
       supervisor(Repos.Endpoint, []),
       # Start your own worker by calling: Repos.Worker.start_link(arg1, arg2, arg3)
       # worker(Repos.Worker, [arg1, arg2, arg3]),
+      {Repos.Worker, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

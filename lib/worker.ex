@@ -1,58 +1,25 @@
 defmodule Repos.Worker do
   use GenServer
 
-  ## Client API
-
-  def start_link(opts \\ []) do
-    GenServer.start_link(__MODULE__, :ok, opts)
+  def start_link(_default) do
+    GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
-  def reset_stats(pid) do
-    GenServer.cast(pid, :reset_stats)
+  def init(args) do
+    {:ok, args}
   end
 
-  def get_user(pid, user) do
-    GenServer.call(pid, {:user, user})
+  def get_user(user) do
+    GenServer.call(__MODULE__, {:user, user})
   end
 
-  def get_stats(pid) do
-    GenServer.call(pid, :get_stats)
-  end
-
-  def stop(pid) do
-    GenServer.cast(pid, :stop)
-  end
-
-  ## Server API
-
-  # handle_calls go here
-
-  def handle_call({:user, user}, _from, stats) do
+  def handle_call({:user, user}, _from, state) do
     case info_for(user) do
       {:ok, json} ->
-        new_stats = update_stats(stats, user)
-        {:reply, json, new_stats}
-_ ->
-        {:reply, :error, stats}
+        {:reply, json, state}
+      _ ->
+        {:reply, :error, state}
     end
-  end
-
-  def handle_call(:get_stats, _from, stats) do
-    {:reply, stats, stats}
-  end
-
-  def handle_cast(:reset_stats, _stats) do
-    {:noreply, %{}}
-  end
-
-  def handle_cast(:stop, stats) do
-    {:stop, :normal, stats}
-  end
-
-  ## Server Callbacks
-
-  def init(:ok) do
-    {:ok, %{}}
   end
 
   defp query(user) do
@@ -103,6 +70,7 @@ _ ->
         }
       }
     }
+
     "
   end
 
@@ -132,24 +100,7 @@ _ ->
     end
   end
 
-  defp update_stats(old_stats, user) do
-    case Map.has_key?(old_stats, user) do
-      true ->
-        Map.update!(old_stats, user, &(&1 + 1))
-      false ->
-        Map.put_new(old_stats, user, 1)
-    end
-  end
-
-
-  def terminate(reason, stats) do
-    # We could write to a file, database etc
-    IO.puts "server terminated because of #{inspect reason}"
-       inspect stats
-    :ok
-  end
-
-  def apiKey do
+  defp apiKey do
     ""
   end
 
