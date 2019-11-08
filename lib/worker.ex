@@ -105,7 +105,7 @@ defmodule Repos.Worker do
   end
 
   defp apiKey do
-    "f1cec5b61bdcee36a80fe2c0f2e726eb23ff63a1"
+    Application.get_env(:repos, :api_key)
   end
 
 
