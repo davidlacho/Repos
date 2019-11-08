@@ -1,2 +1,2 @@
-<div id="user-data" class="">
-</div>
+<div id="follow" class="ui six doubling cards"></div>
+<div class="ui relaxed divided list" id="watch"></div>

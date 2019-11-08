@@ -21,11 +21,13 @@ channel.on("search:1:result", (resp) => {
       const issueCount = resp.data.user.issues.edges.length || 0;
       const pullRequestCount = resp.data.user.pullRequests.edges.length || 0
 
-    // if (resp.data.user.following.edges && resp.data.user.following.edges.length > 0) {
-    //   resp.data.user.following.edges.forEach(node => {
-    //     console.log(node)
-    //   });
-    // }
+    if (resp.data.user.following.edges && resp.data.user.following.edges.length > 0) {
+      const html = renderFollowingHtml(resp.data.user.following.edges);
+      console.log(html);
+      const followDiv = document.getElementById("follow");
+      followDiv.innerHTML = '';
+      followDiv.innerHTML = html;
+    }
 
     // if (resp.data.user.pinnedRepositories.edges && resp.data.user.pinnedRepositories.edges.length > 0) {
     //   resp.data.user.pinnedRepositories.edges.forEach(node => {
@@ -35,27 +37,40 @@ channel.on("search:1:result", (resp) => {
 
     if (resp.data.user.watching.edges && resp.data.user.watching.edges.length > 0) {
         const html = renderWatchingHtml(resp.data.user.watching.edges);
-        document.getElementById('user-data').innerHTML = '';
-        document.getElementById('user-data').innerHTML = html;
+        const watchDiv = document.getElementById("watch");
+        watchDiv.innerHTML = '';
+        watchDiv.innerHTML = html;
     }
 
   }
 })
 
 const renderWatchingHtml = watching => {
-  let html = '<div class="ui relaxed divided list">';
+  let html = '';
   watching.forEach(w => {
-    html += `
-    <div class="item">
-    <i class="large github middle aligned icon"></i>
-    <div class="content">
-      <a class="header" href="${w.node.url}">${w.node.name}</a>
-      <div class="description">${w.node.description}</div>
-    </div>
-  </div>
-    `;
+    html += 
+    `<div class="item"><i class="large github middle aligned icon"></i>
+    <div class="content"><a class="header" href="${w.node.url}">${w.node.name}</a>
+    <div class="description">${w.node.description}</div></div></div>`;
   });
-  html += '</div>'
+  return html;
+}
+
+const renderFollowingHtml = follow => {
+  let html = '';
+  follow.forEach(w => {
+    console.log(w);
+    html +=
+    // `<div class="card"><div class="image"><img src="${w.node.avatarUrl}"></div></div>`;
+    `<div class="column">
+    <div class="ui fluid card">
+        <img class="ui small rounded image" src="${w.node.avatarUrl}">
+      <div class="content">
+        <a href="${w.node.url}">${w.node.login}</a>
+      </div>
+    </div>
+  </div>`
+  });
   return html;
 }
 
