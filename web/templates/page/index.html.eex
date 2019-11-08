@@ -1,4 +1,8 @@
+      <div class="ui action input">
+<input id="username" type="text" placeholder="Search...">
+  <button class="ui button">Search</button>
+</div>
+<div id="profile" class="ui comments"></div>
 <div id="follow" class="ui comments"></div>
-
 <div class="ui relaxed divided list" id="pinned"></div>
 <div class="ui relaxed divided list" id="watch"></div>

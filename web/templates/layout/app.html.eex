@@ -19,8 +19,7 @@
   <body>
     <div class="container">
       <header class="header">
-      <input id="username"></input>
-    <button>Search!</button>
+      <h1>Repository Search</h1>
       </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

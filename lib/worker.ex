@@ -28,6 +28,7 @@ defmodule Repos.Worker do
         name,
         login,
         avatarUrl,
+        url,
         following(first: 100) {
           edges {
             node {

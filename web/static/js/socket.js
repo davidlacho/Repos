@@ -17,19 +17,27 @@ channel.join()
   });
   
 channel.on("search:1:result", (resp) => {
-  console.log(resp);
 
+  const profileDiv = document.getElementById("profile");
   const followDiv = document.getElementById("follow");
   const watchDiv = document.getElementById("watch");
   const pinDiv = document.getElementById("pinned");
 
+  profileDiv.innerHTML = '';
   followDiv.innerHTML = '';
   watchDiv.innerHTML = '';
   pinDiv.innerHTML = '';
 
   if (resp.data.user) {
       const issueCount = resp.data.user.issues.edges.length || 0;
-      const pullRequestCount = resp.data.user.pullRequests.edges.length || 0
+      const pullRequestCount = resp.data.user.pullRequests.edges.length || 0;
+      const userAvatar = resp.data.user.avatarUrl;
+      const userLogin = resp.data.user.login;
+      const userName = resp.data.user.name;
+      const userUrl = resp.data.user.url;
+
+      profileDiv.innerHTML = renderCard(userAvatar, userLogin, userName, userUrl, issueCount, pullRequestCount)
+
 
     if (resp.data.user.following.edges && resp.data.user.following.edges.length > 0) {
       const html = renderFollowingHtml(resp.data.user.following.edges);
@@ -46,6 +54,8 @@ channel.on("search:1:result", (resp) => {
         watchDiv.innerHTML = '<h3 class="ui dividing header">Watched Repositories</h3>'+ html;
     }
 
+  } else {
+    profileDiv.innerHTML = "<h3>User not found.</h3>"
   }
 })
 
@@ -76,30 +86,25 @@ const renderFollowingHtml = follow => {
   return html;
 }
 
-const renderCard = (issueCount, pullRequests) => {
-  return `<div class="card">
-  <div class="image">
-    <img src="/images/avatar2/large/matthew.png">
-  </div>
-  <div class="content">
-    <div class="header">Matt Giampietro</div>
-    <div class="meta">
-      <a>Friends</a>
+const renderCard = (userAvatar, userLogin, userName, userUrl, issueCount, pullRequestCount) => {
+return `
+<h3 class="ui dividing header">${userLogin}'s Profile</h3>
+<div class="ui items">
+  <div class="item">
+    <a class="ui small image">
+      <img src="${userAvatar}">
+    </a>
+    <div class="content">
+      <a class="header" href="${userUrl}">github.com/${userLogin}</a>
+      <div class="description">
+        <h4>${userName}</h4>
+        <h6>Pull Requests: ${pullRequestCount}</h6>
+        <h6>Issues: ${issueCount}</h6>
+      </div>
     </div>
-    <div class="description">
-      Matthew is an interior designer living in New York.
-    </div>
   </div>
-  <div class="extra content">
-    <span class="right floated">
-      ${issueCount} issues.
-    </span>
-    <span>
-      <i class="user icon"></i>
-      ${pullRequestCount} pull requests.
-    </span>
-  </div>
-</div>`
+</div>
+`
 
 }
 
