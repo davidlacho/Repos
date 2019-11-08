@@ -18,6 +18,9 @@ To start Repository Search:
   * Start by cloning this repository (`git clone https://github.com/fiveache/Repos.git`) and navigating into the directory.
   * Install dependencies with `mix deps.get`
   * Install Node.js dependencies with `npm install`
+  * Generate a [GitHub Token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) with User and Repository read scopes.
+  * remove the `.` from `config/.dev.secret.exs`
+  * Replace `<API KEY FROM GITHUB>` with the token generated from the step above.
   * Start Phoenix endpoint with `mix phoenix.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
