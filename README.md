@@ -1,8 +1,8 @@
-# Repos
+# Repo Search
 
 ## Description
 
-Repository search is a simple web application built in Elixir and Phoenix that will:
+Repo Search is a simple web application built in Elixir and Phoenix that will:
 * Take a user’s github username
 * Return a list of repositories that user is watching with a link to each.
 * And displays some other interesting info about that user, such as the count of the user's pull requests, issues, and more!
@@ -13,7 +13,7 @@ This project relies on [GitHub's V4 API](https://developer.github.com/v4/). It i
 
 ## Getting Started
 
-To start Repository Search:
+To start Repo Search:
   * This project assumes you have installed [Elixir and Phoenix](https://hexdocs.pm/phoenix/installation.html).
   * Start by cloning this repository (`git clone https://github.com/fiveache/Repos.git`) and navigating into the directory.
   * Install dependencies with `mix deps.get`
