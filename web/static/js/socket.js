@@ -17,35 +17,39 @@ channel.join()
   });
   
 channel.on("search:1:result", (resp) => {
+  console.log(resp);
+
+  const followDiv = document.getElementById("follow");
+  const watchDiv = document.getElementById("watch");
+  const pinDiv = document.getElementById("pinned");
+
+  followDiv.innerHTML = '';
+  watchDiv.innerHTML = '';
+  pinDiv.innerHTML = '';
+
   if (resp.data.user) {
       const issueCount = resp.data.user.issues.edges.length || 0;
       const pullRequestCount = resp.data.user.pullRequests.edges.length || 0
 
     if (resp.data.user.following.edges && resp.data.user.following.edges.length > 0) {
       const html = renderFollowingHtml(resp.data.user.following.edges);
-      console.log(html);
-      const followDiv = document.getElementById("follow");
-      followDiv.innerHTML = '';
       followDiv.innerHTML = html;
     }
 
-    // if (resp.data.user.pinnedRepositories.edges && resp.data.user.pinnedRepositories.edges.length > 0) {
-    //   resp.data.user.pinnedRepositories.edges.forEach(node => {
-    //     console.log(node)
-    //   });
-    // }
+    if (resp.data.user.pinnedRepositories.edges && resp.data.user.pinnedRepositories.edges.length > 0) {
+      const html = renderRepositories(resp.data.user.pinnedRepositories.edges);
+      pinDiv.innerHTML = '<h3 class="ui dividing header">Pinned Repositories</h3>' + html;
+  }
 
     if (resp.data.user.watching.edges && resp.data.user.watching.edges.length > 0) {
-        const html = renderWatchingHtml(resp.data.user.watching.edges);
-        const watchDiv = document.getElementById("watch");
-        watchDiv.innerHTML = '';
-        watchDiv.innerHTML = html;
+        const html = renderRepositories(resp.data.user.watching.edges);
+        watchDiv.innerHTML = '<h3 class="ui dividing header">Watched Repositories</h3>'+ html;
     }
 
   }
 })
 
-const renderWatchingHtml = watching => {
+const renderRepositories = watching => {
   let html = '';
   watching.forEach(w => {
     html += 
@@ -57,19 +61,17 @@ const renderWatchingHtml = watching => {
 }
 
 const renderFollowingHtml = follow => {
-  let html = '';
+  let html = '<h3 class="ui dividing header">Following</h3>';
   follow.forEach(w => {
-    console.log(w);
-    html +=
-    // `<div class="card"><div class="image"><img src="${w.node.avatarUrl}"></div></div>`;
-    `<div class="column">
-    <div class="ui fluid card">
-        <img class="ui small rounded image" src="${w.node.avatarUrl}">
-      <div class="content">
-        <a href="${w.node.url}">${w.node.login}</a>
-      </div>
-    </div>
-  </div>`
+  html +=
+  `<div class="comment">
+  <a class="avatar">
+    <img src="${w.node.avatarUrl}">
+  </a>
+  <div class="content">
+    <a class="author">${w.node.login}</a>
+  </div>
+</div>`
   });
   return html;
 }

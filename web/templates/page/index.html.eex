@@ -1,2 +1,4 @@
-<div id="follow" class="ui six doubling cards"></div>
+<div id="follow" class="ui comments"></div>
+
+<div class="ui relaxed divided list" id="pinned"></div>
 <div class="ui relaxed divided list" id="watch"></div>

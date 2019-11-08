@@ -25,6 +25,9 @@ defmodule Repos.Worker do
   defp query(user) do
     "{
       user(login: \"#{user}\") {
+        name,
+        login,
+        avatarUrl,
         following(first: 100) {
           edges {
             node {
