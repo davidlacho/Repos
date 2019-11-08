@@ -16,7 +16,7 @@ channel.join()
     document.getElementById('username').value = '';
   });
   
-channel.on("search:1", (resp) => {
+channel.on("search:1:result", (resp) => {
   console.log(resp);
 })
 export default socket
